@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 class Expense extends Transaction {
 
-    public Expense(User payer) {
+    public Expense(User payer, double amount) {
         this.payer = payer;
         this.contributors = new ArrayList<User>();
+        this.amount = amount;
     }
 
     /**
