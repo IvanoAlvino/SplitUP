@@ -25,4 +25,13 @@ class User {
      * The amount this user has already payed.
      */
     private Double payed;
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
