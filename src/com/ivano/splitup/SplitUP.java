@@ -1,6 +1,7 @@
 package com.ivano.splitup;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SplitUP {
 
@@ -15,11 +16,68 @@ public class SplitUP {
     private ArrayList<Debit> listDebits;
 
     public static void main(String[] args) {
+        String choice;
+        Boolean finished = false;
+        Scanner scanner = new Scanner(System.in);
 
         printMenu();
+        while (!finished) {
+            displayChoiceMessage();
+            choice = scanner.next();
 
+            switch (choice) {
+                case "a":
+                    System.out.println("Add a shared expense");
+                    break;
+
+                case "r":
+                    System.out.println("Remove a shared expense");
+                    break;
+
+                case "m":
+                    System.out.println("Modify a shared expense");
+                    break;
+
+                case "u":
+                    System.out.println("Add a user");
+                    break;
+
+                case "x":
+                    System.out.println("Remove a user");
+                    break;
+
+                case "d":
+                    System.out.println("Add a debit");
+                    break;
+
+                case "b":
+                    System.out.println("Remove a debit");
+                    break;
+
+                case "c":
+                    System.out.println("Calculate total");
+                    break;
+
+                case "e":
+                    System.out.println("Exit from SplitUP");
+                    finished = true;
+                    break;
+            }
+        }
+
+        System.out.println("Bye bye!");
     }
 
+
+    private static void displayChoiceMessage() {
+        System.out.println();
+        System.out.print("Enter choice: ");
+        System.out.println();
+    }
+
+    /**
+     * Print a menu with possible operations.
+     */
     private static void printMenu() {
         System.out.println("Menu\n----\n");
         System.out.println("a - Add shared expense");
@@ -33,6 +91,8 @@ public class SplitUP {
         System.out.println("b - Remove a debit");
         System.out.println();
         System.out.println("c - Calculate total");
-
+        System.out.println();
+        System.out.println("e - Exit from SplitUP");
+        System.out.println();
     }
 }
