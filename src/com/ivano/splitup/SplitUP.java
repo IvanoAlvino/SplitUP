@@ -10,17 +10,17 @@ public class SplitUP {
   /**
    * The list of all registered expenses.
    */
-  private static ArrayList<Expense> listExpenses = new ArrayList<Expense>();
+  private static ArrayList<Expense> listExpenses = new ArrayList<>();
 
   /**
    * The list of all debts.
    */
-  private static ArrayList<Debit> listDebits = new ArrayList<Debit>();
+  private static ArrayList<Debit> listDebits = new ArrayList<>();
 
   /**
    * The list of all users.
    */
-  private static ArrayList<User> listUsers = new ArrayList<User>();
+  private static ArrayList<User> listUsers = new ArrayList<>();
 
   /**
    * Ask either to create a new user or to select an already existing one from {@link SplitUP#listUsers}.
@@ -143,8 +143,9 @@ public class SplitUP {
   private static void addExpense() {
     User payer;
     Double amount;
-    System.out.println("Who is paying?");
+    Expense expense;
 
+    System.out.println("Who is paying?");
     if (listUsers.isEmpty()) {
       payer = createNewUser();
     }
@@ -153,8 +154,58 @@ public class SplitUP {
     }
 
     amount = readDoubleAmount();
-    //TODO who is he sharing with?
-    listExpenses.add(new Expense(payer, amount));
+
+    expense = new Expense(payer, amount);
+
+    addContributorsToExpense(expense);
+
+    System.out.println("Expense created!");
+  }
+
+  /**
+   * Add contributors to a provided expense.<br>
+   * The contributors can either be choosen from a list or created on the fly.<br>
+   * It is possible not to insert any contributor, in this case the expense will be sustained only by the original
+   * expense payer.
+   *
+   * @param expense The expense to which contributors will be added
+   */
+  private static void addContributorsToExpense(Expense expense) {
+    User contributor;
+    Boolean finished = false;
+
+    while (!finished) {
+      printAddContributorsToExpenseMenu();
+      String choice = scanner.next();
+
+      switch (choice) {
+        case "a":
+          contributor = chooseUserFromListOrCreateNewUser();
+          expense.addContributor(contributor);
+          break;
+
+        case "e":
+          if (expense.getContributors().size() == 0) {
+            System.out.println("This expense will be only charged to " + expense.getPayerName());
+          }
+          finished = true;
+          break;
+
+        default:
+          printAddContributorsToExpenseMenu();
+          break;
+        }
+    }
+    listExpenses.add(expense);
+  }
+
+  /**
+   * Print a small menu for method {@link SplitUP#addContributorsToExpense(Expense)}.
+   */
+  private static void printAddContributorsToExpenseMenu() {
+    System.out.println("Who is sharing this expense?");
+    System.out.println("a - Add a new contributor");
+    System.out.println("e - Terminate the list of contributors");
   }
 
   /**
@@ -174,7 +225,6 @@ public class SplitUP {
   }
 
   public static void main(String[] args) {
-
     String choice;
     Boolean finished = false;
 
@@ -184,45 +234,46 @@ public class SplitUP {
       choice = scanner.next();
 
       switch (choice) {
-      case "a":
-        addExpense();
-        break;
-      case "r":
-        System.out.println("Remove a shared expense");
-        break;
+        case "a":
+          addExpense();
+          break;
 
-      case "m":
-        System.out.println("Modify a shared expense");
-        break;
+        case "r":
+          System.out.println("Remove a shared expense");
+          break;
 
-      case "u":
-        System.out.println("Add a user");
-        break;
+        case "m":
+          System.out.println("Modify a shared expense");
+          break;
 
-      case "x":
-        System.out.println("Remove a user");
-        break;
+        case "u":
+          System.out.println("Add a user");
+          break;
 
-      case "d":
-        System.out.println("Add a debit");
-        break;
+        case "x":
+          System.out.println("Remove a user");
+          break;
 
-      case "b":
-        System.out.println("Remove a debit");
-        break;
+        case "d":
+          System.out.println("Add a debit");
+          break;
 
-      case "c":
-        System.out.println("Calculate total");
-        break;
+        case "b":
+          System.out.println("Remove a debit");
+          break;
 
-      case "e":
-        System.out.println("Exit from SplitUP");
-        finished = true;
-        break;
+        case "c":
+          System.out.println("Calculate total");
+          break;
 
-      default:
-        displayChoiceMessage();
-        break;
+        case "e":
+          System.out.println("Exit from SplitUP");
+          finished = true;
+          break;
+
+        default:
+          displayChoiceMessage();
+          break;
       }
     }
     System.out.println("Bye bye!");
