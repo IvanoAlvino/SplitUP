@@ -28,10 +28,25 @@ class User {
 
   public User(String name) {
     this.name = name;
+    this.debits = new ArrayList<>();
+    this.toPay = 0.0;
+    this.payed = 0.0;
   }
 
   @Override
   public String toString() {
     return this.name;
+  }
+
+  public ArrayList<Debit> getDebits() {
+    return this.debits;
+  }
+
+  public Double getToPay() {
+    return this.toPay;
+  }
+
+  public Double getPayed() {
+    return this.payed;
   }
 }
