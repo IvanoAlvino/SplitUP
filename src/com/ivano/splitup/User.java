@@ -15,9 +15,7 @@ class User {
   private ArrayList<Debit> debits;
 
   /**
-   * The amount this user has to pay back.
-   * A positive value means this user will pay money.
-   * A negative value means this user will receive money.
+   * The sum of the shares this user has to pay.
    */
   private Double toPay;
 
@@ -25,6 +23,14 @@ class User {
    * The amount this user has already payed.
    */
   private Double payed;
+
+  /**
+   * The difference between {@link User#toPay} and {@link User#payed}.<br>
+   * This value can be:<br>
+   *   - Positive -> The user pays money <br>
+   *   - Negative -> The user receives money.
+   */
+  private Double result;
 
   public User(String name) {
     this.name = name;
@@ -38,15 +44,22 @@ class User {
     return this.name;
   }
 
-  public ArrayList<Debit> getDebits() {
-    return this.debits;
+  public void updatePayedAmount(double amount) {
+    this.payed += amount;
   }
 
-  public Double getToPay() {
-    return this.toPay;
+  /**
+   * Compute the {@link User#result}.
+   */
+  public void computeResult() {
+    this.result = this.toPay - this.payed;
   }
 
-  public Double getPayed() {
-    return this.payed;
+  public Double getResult() {
+    return this.result;
+  }
+
+  public void updateToPay(Double share) {
+    this.toPay += share;
   }
 }
