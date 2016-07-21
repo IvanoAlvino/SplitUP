@@ -44,22 +44,22 @@ class User {
     return this.name;
   }
 
-  public void updatePayedAmount(double amount) {
+  void updatePayedAmount(double amount) {
     this.payed += amount;
   }
 
   /**
    * Compute the {@link User#result}.
    */
-  public void computeResult() {
+  void computeResult() {
     this.result = this.toPay - this.payed;
   }
 
-  public Double getResult() {
+  Double getResult() {
     return this.result;
   }
 
-  public void updateToPay(Double share) {
+  void updateToPay(Double share) {
     this.toPay += share;
   }
 }

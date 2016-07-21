@@ -18,9 +18,9 @@ class Expense extends Transaction {
    */
   private User payer;
 
-  public Expense(User payer, double amount) {
+  Expense(User payer, double amount) {
     this.payer = payer;
-    this.contributors = new ArrayList<User>();
+    this.contributors = new ArrayList<>();
     this.amount = amount;
     this.contributorsNumber = 0;
   }
@@ -29,23 +29,23 @@ class Expense extends Transaction {
    * Add a new contributor to {@link Expense#contributors}.
    * @param contributor The user to add to the contributors list
    */
-  public void addContributor(User contributor) {
+  void addContributor(User contributor) {
     this.contributors.add(contributor);
     this.contributorsNumber++;
   }
 
-  public ArrayList<User> getContributors() {
+  ArrayList<User> getContributors() {
     return this.contributors;
   }
 
-  public String getPayerName() {
+  String getPayerName() {
     return this.payer.toString();
   }
 
   /**
    * Returns the share for every contributor.
    */
-  public Double getShare() {
+  Double getShare() {
     return this.amount / this.contributorsNumber;
   }
 }
