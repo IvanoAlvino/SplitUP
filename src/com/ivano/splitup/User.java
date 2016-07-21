@@ -16,7 +16,7 @@ class User {
 
   /**
    * The amount this user has to pay back.
-   * A positive value means this usser will pay money.
+   * A positive value means this user will pay money.
    * A negative value means this user will receive money.
    */
   private Double toPay;

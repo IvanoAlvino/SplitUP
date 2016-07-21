@@ -145,6 +145,7 @@ public class SplitUP {
     Double amount;
     Expense expense;
 
+    // Get payer User
     System.out.println("Who is paying?");
     if (listUsers.isEmpty()) {
       payer = createNewUser();
@@ -152,11 +153,10 @@ public class SplitUP {
     else {
       payer = chooseUserFromListOrCreateNewUser();
     }
-
+    // Get amount payed
     amount = readDoubleAmount();
 
     expense = new Expense(payer, amount);
-
     addContributorsToExpense(expense);
 
     System.out.println("Expense created!");
@@ -164,7 +164,7 @@ public class SplitUP {
 
   /**
    * Add contributors to a provided expense.<br>
-   * The contributors can either be choosen from a list or created on the fly.<br>
+   * The contributors can either be chosen from a list or created on the fly.<br>
    * It is possible not to insert any contributor, in this case the expense will be sustained only by the original
    * expense payer.
    *
