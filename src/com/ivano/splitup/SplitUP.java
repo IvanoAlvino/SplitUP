@@ -153,10 +153,14 @@ public class SplitUP {
     else {
       payer = chooseUserFromListOrCreateNewUser();
     }
-    // Get amount payed
+
     amount = readDoubleAmount();
+    payer.updatePayedAmount(amount);
 
     expense = new Expense(payer, amount);
+    // The payer is always added as contributor
+    expense.addContributor(payer);
+    // Potentially add other contributors
     addContributorsToExpense(expense);
 
     System.out.println("Expense created!");
@@ -224,6 +228,46 @@ public class SplitUP {
     return scanner.nextDouble();
   }
 
+  /**
+   * Print the results for every user in {@link SplitUP#listUsers}.
+   */
+  private static void printResults() {
+    for (User u : listUsers) {
+      System.out.println(u.toString() + " - " + u.getResult().toString());
+    }
+  }
+
+  /**
+   * Calculate and update the {@link User#result} for every user.<br>
+   * The result is the difference between {@link User#toPay} and {@link User#payed}.
+   */
+  private static void calculateTotal() {
+    for (User u : listUsers) {
+      u.computeResult();
+    }
+  }
+
+  /**
+   * Loop through {@link SplitUP#listExpenses}, calculate the share and update field
+   * {@link User#toPay} for every contributor.
+   */
+  private static void updateToPayForEveryUser() {
+    for (Expense e : listExpenses) {
+      for (User u : e.getContributors()) {
+        u.updateToPay(e.getShare());
+      }
+    }
+  }
+
+  /**
+   * Calculate and print the {@link User#result} for every user.
+   */
+  private static void calculateAndShowResults() {
+    updateToPayForEveryUser();
+    calculateTotal();
+    printResults();
+  }
+
   public static void main(String[] args) {
     String choice;
     Boolean finished = false;
@@ -264,6 +308,7 @@ public class SplitUP {
 
         case "c":
           System.out.println("Calculate total");
+          calculateAndShowResults();
           break;
 
         case "e":
