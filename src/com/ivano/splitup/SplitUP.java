@@ -1,5 +1,6 @@
 package com.ivano.splitup;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -221,8 +222,9 @@ public class SplitUP {
    * Print the results for every user in {@link SplitUP#listUsers}.
    */
   private static void printResults() {
+    DecimalFormat f = new DecimalFormat("##.00");
     for (User u : listUsers) {
-      System.out.println(u.toString() + " : " + u.getResult().toString());
+      System.out.println(u.toString() + " : " + f.format(u.getResult()));
     }
   }
 

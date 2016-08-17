@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8123c0e6-bee1-402d-a015-528a152a0506" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/ivano/splitup/UserNameNotAllowedException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ivano/splitup/SplitUP.java" afterPath="$PROJECT_DIR$/src/com/ivano/splitup/SplitUP.java" />
     </list>
     <ignored path="SplitUP.iws" />
@@ -78,8 +76,8 @@
       <file leaf-file-name="SplitUP.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/ivano/splitup/SplitUP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="193" column="32" selection-start-line="193" selection-start-column="32" selection-end-line="193" selection-end-column="32" />
+            <state relative-caret-position="29">
+              <caret line="210" column="44" selection-start-line="210" selection-start-column="44" selection-end-line="210" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -680,7 +678,7 @@
       <workItem from="1468957160366" duration="166000" />
       <workItem from="1468957566761" duration="1348000" />
       <workItem from="1471436790007" duration="214000" />
-      <workItem from="1471466514046" duration="2164000" />
+      <workItem from="1471466514046" duration="2470000" />
     </task>
     <task id="LOCAL-00001" summary="Change way to introduce names&#10;&#10;Simplified user name introduce mechanism, from menu with choice between&#10;add a new user and select from list, to just introducing the user name and&#10;either retrieving it from listUsers or creating a new one.&#10;">
       <created>1471436874347</created>
@@ -700,7 +698,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3892000" />
+    <option name="totallyTimeSpent" value="4198000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -904,8 +902,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ivano/splitup/SplitUP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="193" column="32" selection-start-line="193" selection-start-column="32" selection-end-line="193" selection-end-column="32" />
+        <state relative-caret-position="29">
+          <caret line="210" column="44" selection-start-line="210" selection-start-column="44" selection-end-line="210" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
