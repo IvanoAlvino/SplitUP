@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class SplitUP {
 
+  private static final String END_STRING = "end";
+
   private static Scanner scanner = new Scanner(System.in);
 
   /**
@@ -28,12 +30,12 @@ public class SplitUP {
    * Enter the name of a user.
    * If the user is already existing in {@link SplitUP#listUsers}, the user is returned.
    * If the user is not in the list, create a new one.
-   * If the string 'end' is entered, null is returned.
+   * If the string {@link SplitUP#END_STRING} is entered, null is returned.
    *
-   * A user cannot be called 'end' and this is guaranteed at user creation time.
+   * A user cannot be called {@link SplitUP#END_STRING} and this is guaranteed at user creation time.
    *
    * @return A User, either new or selected from existing one
-   *         Null if the string 'end' is entered
+   *         Null if the string {@link SplitUP#END_STRING} is entered
    */
   private static User retrieveUserOrCreateNew() {
 
@@ -41,7 +43,7 @@ public class SplitUP {
     System.out.println("Insert user name");
     String userName = scanner.next();
 
-    if (userName.equalsIgnoreCase("end")) {
+    if (userName.equalsIgnoreCase(END_STRING)) {
       return null;
     }
 
@@ -93,7 +95,7 @@ public class SplitUP {
    * Create a new User and adds it to {@link SplitUP#listUsers}.
    *
    * @throws UserNameNotAllowedException
-   *          If userName entered is 'end'
+   *          If userName entered is {@link SplitUP#END_STRING}
    * @return The newly created user.
    */
 
@@ -101,7 +103,7 @@ public class SplitUP {
     System.out.println("Insert user name");
     String userName = scanner.next();
 
-    if (userName.equalsIgnoreCase("end")) {
+    if (userName.equalsIgnoreCase(END_STRING)) {
       throw new UserNameNotAllowedException();
     }
 
@@ -273,7 +275,7 @@ public class SplitUP {
           try {
             addExpense();
           } catch (UserNameNotAllowedException e) {
-            System.out.println("A user cannot be named \'end\'.");
+            System.out.println("A user cannot be named " + END_STRING);
             System.out.println("Expense creation interrupted");
           }
           break;
