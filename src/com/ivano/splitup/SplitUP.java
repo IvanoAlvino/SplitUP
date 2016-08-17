@@ -3,6 +3,7 @@ package com.ivano.splitup;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class SplitUP {
 
   private static Scanner scanner = new Scanner(System.in);
@@ -28,76 +29,64 @@ public class SplitUP {
    * @return A User, either new or selected from existing one
    */
   private static User chooseUserFromListOrCreateNewUser() {
-    printChooseUserORCreateNewMenu();
 
-    while (true) {
-      int choice = readInt();
-      switch (choice) {
-      case 1:
-        return chooseUserFromList();
-      case 2:
-        return createNewUser();
-      default:
-        printChooseUserORCreateNewMenu();
-        break;
+    // insert user name
+    System.out.println("Insert user name");
+    String userName = scanner.next();
+
+    User user;
+    if ( (user = retrieveUser(userName)) != null ) {
+      // user found
+      return user;
+    }
+    else {
+      // user not found
+      return createNewUser(userName);
+    }
+  }
+
+  /**
+   *
+   * @param userName The name of the user to retrieve from {@link SplitUP#listUsers}
+   *
+   * @return  The user if found, null otherwise
+   */
+  private static User retrieveUser(String userName) {
+    for (User user : listUsers) {
+      if ( userName.equalsIgnoreCase(user.toString()) ) {
+        return user;
       }
     }
+    return null;
   }
 
   /**
-   * Print a small menu used in {@link SplitUP#chooseUserFromListOrCreateNewUser}.
-   */
-  private static void printChooseUserORCreateNewMenu() {
-    System.out.println("1 - Choose user from list");
-    System.out.println("2 - Create new user");
-  }
-
-  /**
-   * Select an existing user from {@link SplitUP#listUsers}.
+   * Create a new User and adds it to {@link SplitUP#listUsers}.
+   * 
+   * @param userName
+   *         The new user name 
    *
-   * @return A User
+   * @return The newly created user.
+   *         Null if userName is empty or null
    */
-  private static User chooseUserFromList() {
-    int selectedUser = -1;
-    while (selectedUser < 0 || selectedUser > listUsers.size() - 1) {
-      printUserList();
-      selectedUser = readInt();
+  private static User createNewUser(String userName) {
+    if (userName != null && !userName.isEmpty()) {
+      User user = new User(userName);
+      listUsers.add(user);
+      return user;
     }
-    return listUsers.get(selectedUser);
-  }
-
-  /**
-   * This method will safely read an int value.
-   * In case something different from an int is introduced, ask again for an int.
-   *
-   * @return A Integer value
-   */
-  private static int readInt() {
-    while (!scanner.hasNextInt()) {
-      System.out.println("Please insert a number");
-      scanner.next();
-    }
-    return scanner.nextInt();
-  }
-
-  /**
-   * Print all the users from {@link SplitUP#listUsers}.
-   */
-  private static void printUserList() {
-    for (int i = 0; i < listUsers.size(); i++) {
-      System.out.println(Integer.toString(i) + " " + listUsers.get(i).toString());
-    }
+    return null;
   }
 
   /**
    * Create a new User and adds it to {@link SplitUP#listUsers}.
    *
-   * @return The newly created user
+   * @return The newly created user.
    */
   private static User createNewUser() {
-    System.out.println("Insert name of the user:");
-    String payerName = scanner.next();
-    User user = new User(payerName);
+    System.out.println("Insert user name");
+    String userName = scanner.next();
+    User user = new User(userName);
     listUsers.add(user);
     return user;
   }
@@ -189,6 +178,7 @@ public class SplitUP {
           break;
 
         case "e":
+          // TODO: check if ever enters here (I do not think so)
           if (expense.getContributors().size() == 0) {
             System.out.println("This expense will be only charged to " + expense.getPayerName());
           }
@@ -198,7 +188,7 @@ public class SplitUP {
         default:
           printAddContributorsToExpenseMenu();
           break;
-        }
+      }
     }
     listExpenses.add(expense);
   }
@@ -233,7 +223,7 @@ public class SplitUP {
    */
   private static void printResults() {
     for (User u : listUsers) {
-      System.out.println(u.toString() + " - " + u.getResult().toString());
+      System.out.println(u.toString() + " : " + u.getResult().toString());
     }
   }
 
