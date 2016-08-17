@@ -24,15 +24,25 @@ public class SplitUP {
   private static ArrayList<User> listUsers = new ArrayList<>();
 
   /**
-   * Ask either to create a new user or to select an already existing one from {@link SplitUP#listUsers}.
+   * Enter the name of a user.
+   * If the user is already existing in {@link SplitUP#listUsers}, the user is returned.
+   * If the user is not in the list, create a new one.
+   * If the string 'end' is entered, null is returned.
+   *
+   * A user cannot be called 'end' and this is guaranteed at user creation time.
    *
    * @return A User, either new or selected from existing one
+   *         Null if the string 'end' is entered
    */
-  private static User chooseUserFromListOrCreateNewUser() {
+  private static User retrieveUserOrCreateNew() {
 
     // insert user name
     System.out.println("Insert user name");
     String userName = scanner.next();
+
+    if (userName.equalsIgnoreCase("end")) {
+      return null;
+    }
 
     User user;
     if ( (user = retrieveUser(userName)) != null ) {
@@ -81,11 +91,19 @@ public class SplitUP {
   /**
    * Create a new User and adds it to {@link SplitUP#listUsers}.
    *
+   * @throws UserNameNotAllowedException
+   *          If userName entered is 'end'
    * @return The newly created user.
    */
-  private static User createNewUser() {
+
+  private static User createNewUser() throws UserNameNotAllowedException {
     System.out.println("Insert user name");
     String userName = scanner.next();
+
+    if (userName.equalsIgnoreCase("end")) {
+      throw new UserNameNotAllowedException();
+    }
+
     User user = new User(userName);
     listUsers.add(user);
     return user;
@@ -129,7 +147,7 @@ public class SplitUP {
    * The paying user and the contributors can either be created on the fly, or selected from a list of
    * already existing users.
    */
-  private static void addExpense() {
+  private static void addExpense() throws UserNameNotAllowedException {
     User payer;
     Double amount;
     Expense expense;
@@ -140,7 +158,10 @@ public class SplitUP {
       payer = createNewUser();
     }
     else {
-      payer = chooseUserFromListOrCreateNewUser();
+      payer = retrieveUserOrCreateNew();
+      if (payer == null) {
+        throw new UserNameNotAllowedException();
+      }
     }
 
     amount = readDoubleAmount();
@@ -168,38 +189,16 @@ public class SplitUP {
     Boolean finished = false;
 
     while (!finished) {
-      printAddContributorsToExpenseMenu();
-      String choice = scanner.next();
-
-      switch (choice) {
-        case "a":
-          contributor = chooseUserFromListOrCreateNewUser();
-          expense.addContributor(contributor);
-          break;
-
-        case "e":
-          // TODO: check if ever enters here (I do not think so)
-          if (expense.getContributors().size() == 0) {
-            System.out.println("This expense will be only charged to " + expense.getPayerName());
-          }
-          finished = true;
-          break;
-
-        default:
-          printAddContributorsToExpenseMenu();
-          break;
+      System.out.println("Who is sharing this expense?");
+      contributor = retrieveUserOrCreateNew();
+      if (contributor != null) {
+        expense.addContributor(contributor);
+      }
+      else {
+        finished = true;
       }
     }
     listExpenses.add(expense);
-  }
-
-  /**
-   * Print a small menu for method {@link SplitUP#addContributorsToExpense(Expense)}.
-   */
-  private static void printAddContributorsToExpenseMenu() {
-    System.out.println("Who is sharing this expense?");
-    System.out.println("a - Add a new contributor");
-    System.out.println("e - Terminate the list of contributors");
   }
 
   /**
@@ -269,7 +268,12 @@ public class SplitUP {
 
       switch (choice) {
         case "a":
-          addExpense();
+          try {
+            addExpense();
+          } catch (UserNameNotAllowedException e) {
+            System.out.println("A user cannot be named \'end\'.");
+            System.out.println("Expense creation interrupted");
+          }
           break;
 
         case "r":
