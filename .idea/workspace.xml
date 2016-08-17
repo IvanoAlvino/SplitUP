@@ -76,8 +76,8 @@
       <file leaf-file-name="SplitUP.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/ivano/splitup/SplitUP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+            <state relative-caret-position="945">
+              <caret line="63" column="53" selection-start-line="63" selection-start-column="53" selection-end-line="63" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -678,7 +678,7 @@
       <workItem from="1468957160366" duration="166000" />
       <workItem from="1468957566761" duration="1348000" />
       <workItem from="1471436790007" duration="214000" />
-      <workItem from="1471466514046" duration="2734000" />
+      <workItem from="1471466514046" duration="4064000" />
     </task>
     <task id="LOCAL-00001" summary="Change way to introduce names&#10;&#10;Simplified user name introduce mechanism, from menu with choice between&#10;add a new user and select from list, to just introducing the user name and&#10;either retrieving it from listUsers or creating a new one.&#10;">
       <created>1471436874347</created>
@@ -698,7 +698,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4462000" />
+    <option name="totallyTimeSpent" value="5792000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -902,8 +902,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ivano/splitup/SplitUP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        <state relative-caret-position="945">
+          <caret line="63" column="53" selection-start-line="63" selection-start-column="53" selection-end-line="63" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -59,8 +59,9 @@ public class SplitUP {
   }
 
   /**
+   * Search for a user in the {@link SplitUP#listUsers}.
    *
-   * @param userName The name of the user to retrieve from {@link SplitUP#listUsers}
+   * @param userName The name of the user to retrieve
    *
    * @return  The user if found, null otherwise
    */
@@ -75,6 +76,7 @@ public class SplitUP {
 
   /**
    * Create a new User and adds it to {@link SplitUP#listUsers}.
+   * The parameter userName is sanitized, ie it is not possible for it to be equal to {@link SplitUP#END_STRING}.
    * 
    * @param userName
    *         The new user name 
@@ -98,7 +100,6 @@ public class SplitUP {
    *          If userName entered is {@link SplitUP#END_STRING}
    * @return The newly created user.
    */
-
   private static User createNewUser() throws UserNameNotAllowedException {
     System.out.println("Insert user name");
     String userName = scanner.next();
@@ -147,8 +148,6 @@ public class SplitUP {
    * This method will create and add a new expense to {@link SplitUP#listExpenses}.<br>
    * It asks to specify the paying <b>User</b>, the <b>Amount</b> that is being payed and the
    * <b>Contributors</b> that will share the expense.<br>
-   * The paying user and the contributors can either be created on the fly, or selected from a list of
-   * already existing users.
    */
   private static void addExpense() throws UserNameNotAllowedException {
     User payer;
@@ -181,13 +180,13 @@ public class SplitUP {
 
   /**
    * Add contributors to a provided expense.<br>
-   * The contributors can either be chosen from a list or created on the fly.<br>
    * It is possible not to insert any contributor, in this case the expense will be sustained only by the original
    * expense payer.
    *
    * @param expense The expense to which contributors will be added
    */
   private static void addContributorsToExpense(Expense expense) {
+    //TODO: it should be not possible to enter zero contributors by application design
     User contributor;
     Boolean finished = false;
 
@@ -222,6 +221,7 @@ public class SplitUP {
 
   /**
    * Print the results for every user in {@link SplitUP#listUsers}.
+   * The value in euro is rounded to two decimals.
    */
   private static void printResults() {
     DecimalFormat f = new DecimalFormat("##.00");
