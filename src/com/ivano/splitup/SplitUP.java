@@ -40,7 +40,7 @@ public class SplitUP {
   private static User retrieveUserOrCreateNew() {
 
     // insert user name
-    System.out.println("Insert user name");
+    //System.out.print("Insert user name: ");
     String userName = scanner.next();
 
     if (userName.equalsIgnoreCase(END_STRING)) {
@@ -101,7 +101,7 @@ public class SplitUP {
    * @return The newly created user.
    */
   private static User createNewUser() throws UserNameNotAllowedException {
-    System.out.println("Insert user name");
+    //System.out.print("Insert user name: ");
     String userName = scanner.next();
 
     if (userName.equalsIgnoreCase(END_STRING)) {
@@ -155,7 +155,7 @@ public class SplitUP {
     Expense expense;
 
     // Get payer User
-    System.out.println("Who is paying?");
+    System.out.print("Who is paying: ");
     if (listUsers.isEmpty()) {
       payer = createNewUser();
     }
@@ -175,7 +175,7 @@ public class SplitUP {
     // Potentially add other contributors
     addContributorsToExpense(expense);
 
-    System.out.println("Expense created!");
+    System.out.println("-- Expense created --");
   }
 
   /**
@@ -188,8 +188,8 @@ public class SplitUP {
     User contributor;
     Boolean finished = false;
 
+    System.out.println("** Add contributors");
     while (!finished) {
-      System.out.println("Who is sharing this expense?");
       contributor = retrieveUserOrCreateNew();
       if (contributor != null) {
         expense.addContributor(contributor);
@@ -211,10 +211,10 @@ public class SplitUP {
    * @return A Double representing an amount of money
    */
   private static Double readDoubleAmount() {
-    System.out.println("How much?");
+    System.out.print("How much: ");
     while (!scanner.hasNextDouble()) {
       System.out.println("Please insert only digits");
-      System.out.println("How much?");
+      System.out.print("How much: ");
       scanner.next();
     }
     return scanner.nextDouble();
@@ -277,7 +277,7 @@ public class SplitUP {
             addExpense();
           } catch (UserNameNotAllowedException e) {
             System.out.println("A user cannot be named " + END_STRING);
-            System.out.println("Expense creation interrupted");
+            System.out.println("-- Expense creation interrupted --");
           }
           break;
 
@@ -320,6 +320,6 @@ public class SplitUP {
           break;
       }
     }
-    System.out.println("Bye bye!");
+    System.out.println("-- Bye bye --");
   }
 }
