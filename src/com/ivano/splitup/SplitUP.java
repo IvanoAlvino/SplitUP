@@ -41,11 +41,7 @@ public class SplitUP {
     // insert user name
     String userName = scanner.next();
 
-    if (userName.equalsIgnoreCase(END_STRING)) {
-      return null;
-    }
-
-    if (userName.matches("[0-9]+")) {
+    if (userName.equalsIgnoreCase(END_STRING) || userName.matches("[0-9]+")) {
       return null;
     }
 
