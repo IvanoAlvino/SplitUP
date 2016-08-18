@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO: bug!! everytime calculate is called, results are not correct
 
 public class SplitUP {
 
@@ -176,7 +177,12 @@ public class SplitUP {
     while (!finished) {
       contributor = retrieveUserOrCreateNew();
       if (contributor != null) {
-        expense.addContributor(contributor);
+        if ( !contributor.toString().equals(expense.getPayerName()) ) {
+          expense.addContributor(contributor);
+        }
+        else {
+          System.out.println("It is not possible to add the payer as contributor.");
+        }
       }
       else {
         // if there are no other contributors besides the payer, do not permit to finish
