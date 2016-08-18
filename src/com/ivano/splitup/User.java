@@ -15,6 +15,11 @@ class User {
   private ArrayList<Debit> debits;
 
   /**
+   * The list of credits this user have.
+   */
+  private ArrayList<Debit> credits;
+
+  /**
    * The sum of the shares this user has to pay.
    */
   private Double toPay;
@@ -35,6 +40,7 @@ class User {
   public User(String name) {
     this.name = name;
     this.debits = new ArrayList<>();
+    this.credits = new ArrayList<>();
     this.toPay = 0.0;
     this.payed = 0.0;
   }
@@ -52,7 +58,23 @@ class User {
    * Compute the {@link User#result}.
    */
   void computeResult() {
-    this.result = this.toPay - this.payed;
+    this.result = this.toPay - this.payed + totalAllDebts() - totalAllCredits();
+  }
+
+  private double totalAllCredits() {
+    Double total = 0.0;
+    for (Debit d : credits) {
+      total += d.amount;
+    }
+    return total;
+  }
+
+  private double totalAllDebts() {
+    Double total = 0.0;
+    for (Debit d : debits) {
+      total += d.amount;
+    }
+    return total;
   }
 
   Double getResult() {
@@ -69,5 +91,9 @@ class User {
 
   void addDebit(Debit debit) {
     this.debits.add(debit);
+  }
+
+  void addCredit(Debit credit) {
+    this.credits.add(credit);
   }
 }

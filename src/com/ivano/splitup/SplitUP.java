@@ -286,6 +286,7 @@ public class SplitUP {
 
     Debit debit = new Debit(debtor, creditor, amount);
     debtor.addDebit(debit);
+    creditor.addCredit(debit);
 
     System.out.println("-- Debit created --");
   }
