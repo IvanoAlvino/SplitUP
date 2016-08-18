@@ -66,4 +66,8 @@ class User {
   void setToPay(Double val) {
     this.toPay = val;
   }
+
+  void addDebit(Debit debit) {
+    this.debits.add(debit);
+  }
 }

@@ -252,6 +252,36 @@ public class SplitUP {
     }
   }
 
+  //TODO: calculate the debits in the total
+
+  /**
+   * Adds a debit from a debtor towards a creditor.
+   * Debits will simply be added to the amount a user needs to pay when calculating results.
+   */
+  private static void addDebit() throws UsernameNotAllowedException {
+    User debtor, creditor;
+    Double amount;
+    
+    System.out.print("Who is the debtor: ");
+    debtor = retrieveUserOrCreateNew();
+    if (debtor == null) {
+      throw new UsernameNotAllowedException();
+    }
+
+    System.out.print("Who is the creditor: ");
+    creditor = retrieveUserOrCreateNew();
+    if (creditor == null) {
+      throw new UsernameNotAllowedException();
+    }
+
+    amount = readDoubleAmount();
+
+    Debit debit = new Debit(debtor, creditor, amount);
+    debtor.addDebit(debit);
+
+    System.out.println("-- Debit created --");
+  }
+
   public static void main(String[] args) {
     String choice;
     Boolean finished = false;
@@ -288,8 +318,12 @@ public class SplitUP {
           break;
 
         case "d":
-          System.out.println("Add a debit");
-//          addDebit();
+          try {
+            addDebit();
+          } catch (UsernameNotAllowedException e) {
+            System.out.println("A user cannot be named " + END_STRING);
+            System.out.println("-- Debit creation interrupted --");
+          }
           break;
 
         case "b":
