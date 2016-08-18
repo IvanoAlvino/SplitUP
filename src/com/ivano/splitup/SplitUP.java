@@ -75,7 +75,8 @@ public class SplitUP {
 
   /**
    * Create a new User and adds it to {@link SplitUP#listUsers}.
-   * The parameter userName is sanitized, ie it is not possible for it to be equal to {@link SplitUP#END_STRING}.
+   * The parameter userName needs to be sanitized, ie it is not possible for it to be equal to
+   * {@link SplitUP#END_STRING}.
    * 
    * @param userName
    *         The new user name 
@@ -135,12 +136,11 @@ public class SplitUP {
     // Get payer User
     System.out.print("Who is paying: ");
     if (listUsers.isEmpty()) {
-      // read user name
+      // read new user name
       String userName = scanner.next();
       if (userName.equalsIgnoreCase(END_STRING)) {
         throw new UsernameNotAllowedException();
       }
-
       payer = createNewUser(userName);
     }
     else {
