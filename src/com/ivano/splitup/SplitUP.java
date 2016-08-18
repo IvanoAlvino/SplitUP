@@ -330,7 +330,7 @@ public class SplitUP {
           try {
             addDebit();
           } catch (UsernameNotAllowedException e) {
-            System.out.println("A user cannot be named " + END_STRING);
+            System.out.println("A user cannot be named " + END_STRING + " or containing only digits");
             System.out.println("-- Debit creation interrupted --");
           }
           break;
