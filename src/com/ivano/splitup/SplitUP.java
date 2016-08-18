@@ -40,7 +40,6 @@ public class SplitUP {
   private static User retrieveUserOrCreateNew() {
 
     // insert user name
-    //System.out.print("Insert user name: ");
     String userName = scanner.next();
 
     if (userName.equalsIgnoreCase(END_STRING)) {
@@ -94,33 +93,12 @@ public class SplitUP {
   }
 
   /**
-   * Create a new User and adds it to {@link SplitUP#listUsers}.
-   *
-   * @throws UserNameNotAllowedException
-   *          If userName entered is {@link SplitUP#END_STRING}
-   * @return The newly created user.
-   */
-  private static User createNewUser() throws UserNameNotAllowedException {
-    //System.out.print("Insert user name: ");
-    String userName = scanner.next();
-
-    if (userName.equalsIgnoreCase(END_STRING)) {
-      throw new UserNameNotAllowedException();
-    }
-
-    User user = new User(userName);
-    listUsers.add(user);
-    return user;
-  }
-
-  /**
    * Display a simple message.
    * Used every iteration of the main loop in main method.
    */
   private static void displayChoiceMessage() {
     System.out.println();
     System.out.print("Enter choice: ");
-    System.out.println();
   }
 
   /**
@@ -149,7 +127,7 @@ public class SplitUP {
    * It asks to specify the paying <b>User</b>, the <b>Amount</b> that is being payed and the
    * <b>Contributors</b> that will share the expense.<br>
    */
-  private static void addExpense() throws UserNameNotAllowedException {
+  private static void addExpense() throws UsernameNotAllowedException {
     User payer;
     Double amount;
     Expense expense;
@@ -157,12 +135,18 @@ public class SplitUP {
     // Get payer User
     System.out.print("Who is paying: ");
     if (listUsers.isEmpty()) {
-      payer = createNewUser();
+      // read user name
+      String userName = scanner.next();
+      if (userName.equalsIgnoreCase(END_STRING)) {
+        throw new UsernameNotAllowedException();
+      }
+
+      payer = createNewUser(userName);
     }
     else {
       payer = retrieveUserOrCreateNew();
       if (payer == null) {
-        throw new UserNameNotAllowedException();
+        throw new UsernameNotAllowedException();
       }
     }
 
@@ -275,7 +259,7 @@ public class SplitUP {
         case "a":
           try {
             addExpense();
-          } catch (UserNameNotAllowedException e) {
+          } catch (UsernameNotAllowedException e) {
             System.out.println("A user cannot be named " + END_STRING);
             System.out.println("-- Expense creation interrupted --");
           }
