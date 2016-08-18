@@ -163,7 +163,9 @@ public class SplitUP {
     System.out.println("** Add contributors");
     while (!finished) {
       contributor = retrieveUserOrCreateNew();
+
       if (contributor != null) {
+        // it is a valid user, check if he is not the original payer
         if ( !contributor.toString().equals(expense.getPayerName()) ) {
           expense.addContributor(contributor);
         }
