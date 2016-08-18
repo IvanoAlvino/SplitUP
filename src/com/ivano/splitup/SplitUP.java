@@ -4,8 +4,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//TODO: bug!! everytime calculate is called, results are not correct
-
 public class SplitUP {
 
   private static final String END_STRING = "end";
@@ -247,9 +245,19 @@ public class SplitUP {
    * Calculate and print the {@link User#result} for every user.
    */
   private static void calculateAndShowResults() {
+    resetToPayForEveryUser();
     updateToPayForEveryUser();
     calculateTotal();
     printResults();
+  }
+
+  /**
+   * Initializes the {@link User#toPay} field for every user to 0.
+   */
+  private static void resetToPayForEveryUser() {
+    for (User u : listUsers) {
+      u.setToPay(0.0);
+    }
   }
 
   public static void main(String[] args) {

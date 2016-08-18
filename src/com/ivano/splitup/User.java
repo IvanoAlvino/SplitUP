@@ -62,4 +62,8 @@ class User {
   void updateToPay(Double share) {
     this.toPay += share;
   }
+
+  void setToPay(Double val) {
+    this.toPay = val;
+  }
 }
