@@ -134,29 +134,18 @@ public class SplitUP {
 
     // Get payer User
     System.out.print("Who is paying: ");
-    if (listUsers.isEmpty()) {
-      // read new user name
-      String userName = scanner.next();
-      if (userName.equalsIgnoreCase(END_STRING)) {
-        throw new UsernameNotAllowedException();
-      }
-      payer = createNewUser(userName);
-    }
-    else {
-      payer = retrieveUserOrCreateNew();
-      if (payer == null) {
-        throw new UsernameNotAllowedException();
-      }
+    payer = retrieveUserOrCreateNew();
+    if (payer == null) {
+      throw new UsernameNotAllowedException();
     }
 
     amount = readDoubleAmount();
     payer.updatePayedAmount(amount);
 
     expense = new Expense(payer, amount);
-    // The payer is always added as contributor
-    expense.addContributor(payer);
-    // Potentially add other contributors
-    addContributorsToExpense(expense);
+
+    expense.addContributor(payer);        // The payer is always added as contributor
+    addContributorsToExpense(expense);    // Add other contributors
 
     System.out.println("-- Expense created --");
   }
@@ -186,6 +175,9 @@ public class SplitUP {
         // if there are no other contributors besides the payer, do not permit to finish
         if (expense.getContributors().size() > 1) {
           finished = true;
+        }
+        else {
+          System.out.println("Enter at least one contributor.");
         }
       }
     }
@@ -297,6 +289,7 @@ public class SplitUP {
 
         case "d":
           System.out.println("Add a debit");
+//          addDebit();
           break;
 
         case "b":
@@ -320,4 +313,5 @@ public class SplitUP {
     }
     System.out.println("-- Bye bye --");
   }
+
 }
