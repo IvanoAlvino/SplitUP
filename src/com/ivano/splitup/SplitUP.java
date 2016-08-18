@@ -45,6 +45,10 @@ public class SplitUP {
       return null;
     }
 
+    if (userName.matches("[0-9]+")) {
+      return null;
+    }
+
     User user;
     if ( (user = retrieveUser(userName)) != null ) {
       // user found
@@ -266,7 +270,7 @@ public class SplitUP {
           try {
             addExpense();
           } catch (UsernameNotAllowedException e) {
-            System.out.println("A user cannot be named " + END_STRING);
+            System.out.println("A user cannot be named " + END_STRING + " or containing only digits");
             System.out.println("-- Expense creation interrupted --");
           }
           break;
@@ -307,7 +311,6 @@ public class SplitUP {
           break;
 
         default:
-          displayChoiceMessage();
           break;
       }
     }
