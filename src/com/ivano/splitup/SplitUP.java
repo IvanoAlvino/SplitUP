@@ -261,17 +261,25 @@ public class SplitUP {
   private static void addDebit() throws UsernameNotAllowedException {
     User debtor, creditor;
     Double amount;
-    
+
     System.out.print("Who is the debtor: ");
     debtor = retrieveUserOrCreateNew();
     if (debtor == null) {
       throw new UsernameNotAllowedException();
     }
 
-    System.out.print("Who is the creditor: ");
-    creditor = retrieveUserOrCreateNew();
-    if (creditor == null) {
-      throw new UsernameNotAllowedException();
+    // While introducing creditor, check it is different than debtor
+    int i = 0;
+    creditor = debtor;
+    while (creditor.toString().equalsIgnoreCase(debtor.toString())) {
+      if (i++ > 0) {
+        System.out.println("Not possible to have same user as debtor and creditor");
+      }
+      System.out.print("Who is the creditor: ");
+      creditor = retrieveUserOrCreateNew();
+      if (creditor == null) {
+        throw new UsernameNotAllowedException();
+      }
     }
 
     amount = readDoubleAmount();
