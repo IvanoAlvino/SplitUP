@@ -180,13 +180,11 @@ public class SplitUP {
 
   /**
    * Add contributors to a provided expense.<br>
-   * It is possible not to insert any contributor, in this case the expense will be sustained only by the original
-   * expense payer.
+   * It is not possible to insert an expense with no contributors beside the original payer.
    *
    * @param expense The expense to which contributors will be added
    */
   private static void addContributorsToExpense(Expense expense) {
-    //TODO: it should be not possible to enter zero contributors by application design
     User contributor;
     Boolean finished = false;
 
@@ -197,7 +195,10 @@ public class SplitUP {
         expense.addContributor(contributor);
       }
       else {
-        finished = true;
+        // if there are no other contributors besides the payer, do not permit to finish
+        if (expense.getContributors().size() > 1) {
+          finished = true;
+        }
       }
     }
     listExpenses.add(expense);
