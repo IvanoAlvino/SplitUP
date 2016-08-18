@@ -16,11 +16,6 @@ public class SplitUP {
   private static ArrayList<Expense> listExpenses = new ArrayList<>();
 
   /**
-   * The list of all debts.
-   */
-  private static ArrayList<Debit> listDebits = new ArrayList<>();
-
-  /**
    * The list of all users.
    */
   private static ArrayList<User> listUsers = new ArrayList<>();
