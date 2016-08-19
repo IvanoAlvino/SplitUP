@@ -249,7 +249,6 @@ public class SplitUP {
     }
   }
 
-  //TODO: calculate the debits in the total
 
   /**
    * Adds a debit from a debtor towards a creditor.

@@ -10,7 +10,7 @@ class Expense extends Transaction {
    * If empty, the expense will be only payed by his {@link Expense#payer}.
    */
   private ArrayList<User> contributors;
-
+//TODO: remove this int and use contributors.size()
   private int contributorsNumber;
 
   /**
