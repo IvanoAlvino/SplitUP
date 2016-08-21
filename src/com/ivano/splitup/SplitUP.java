@@ -1,14 +1,8 @@
 package com.ivano.splitup;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class SplitUP {
-
-  private static final String END_STRING = "end";
-
-  private static Scanner scanner = new Scanner(System.in);
 
   /**
    * The list of all registered expenses.
@@ -16,95 +10,20 @@ public class SplitUP {
   private static ArrayList<Expense> listExpenses = new ArrayList<>();
 
   /**
-   * The list of all users.
-   */
-  private static ArrayList<User> listUsers = new ArrayList<>();
-
-  /**
-   * Enter the name of a user.
-   * If the user is already existing in {@link SplitUP#listUsers}, the user is returned.
-   * If the user is not in the list, create a new one.
-   * If the string {@link SplitUP#END_STRING} is entered, null is returned.
-   *
-   * A user cannot be called {@link SplitUP#END_STRING} and this is guaranteed at user creation time.
-   *
-   * @return A User, either new or selected from existing one
-   *         Null if the string {@link SplitUP#END_STRING} is entered
-   */
-  private static User retrieveUserOrCreateNew() {
-
-    // insert user name
-    String userName = scanner.next();
-
-    if (userName.equalsIgnoreCase(END_STRING) || userName.matches("[0-9]+")) {
-      return null;
-    }
-
-    User user;
-    if ( (user = retrieveUser(userName)) != null ) {
-      // user found
-      return user;
-    }
-    else {
-      // user not found
-      return createNewUser(userName);
-    }
-  }
-
-  /**
-   * Search for a user in the {@link SplitUP#listUsers}.
-   *
-   * @param userName The name of the user to retrieve
-   *
-   * @return  The user if found, null otherwise
-   */
-  private static User retrieveUser(String userName) {
-    for (User user : listUsers) {
-      if ( userName.equalsIgnoreCase(user.toString()) ) {
-        return user;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Create a new User and adds it to {@link SplitUP#listUsers}.
-   * The parameter userName needs to be sanitized, ie it is not possible for it to be equal to
-   * {@link SplitUP#END_STRING}.
-   * 
-   * @param userName
-   *         The new user name 
-   *
-   * @return The newly created user.
-   *         Null if userName is empty or null
-   */
-  private static User createNewUser(String userName) {
-    if (userName != null && !userName.isEmpty()) {
-      User user = new User(userName);
-      listUsers.add(user);
-      return user;
-    }
-    return null;
-  }
-
-  /**
    * This method will create and add a new expense to {@link SplitUP#listExpenses}.<br>
    * It asks to specify the paying <b>User</b>, the <b>Amount</b> that is being payed and the
    * <b>Contributors</b> that will share the expense.<br>
    */
-  private static void addExpense() throws UsernameNotAllowedException {
+  private static void addExpense() throws UsernameNotValidException {
     User payer;
     Double amount;
     Expense expense;
 
     // Get payer User
     System.out.print("Who is paying: ");
-    payer = retrieveUserOrCreateNew();
-    if (payer == null) {
-      throw new UsernameNotAllowedException();
-    }
+    payer = UserManager.obtainUser();
 
-    amount = readDoubleAmount();
+    amount = IOManager.readDoubleAmount();
     payer.updatePayedAmount(amount);
 
     expense = new Expense(payer, amount);
@@ -127,10 +46,11 @@ public class SplitUP {
 
     System.out.println("** Add contributors");
     while (!finished) {
-      contributor = retrieveUserOrCreateNew();
+      String username = IOManager.readString();
 
-      if (contributor != null) {
-        // it is a valid user, check if he is not the original payer
+      if (UserManager.isValid(username)) {
+        contributor = UserManager.retrieveUserOrCreateNew(username);
+
         if ( !contributor.toString().equals(expense.getPayerName()) ) {
           expense.addContributor(contributor);
         }
@@ -147,35 +67,9 @@ public class SplitUP {
           System.out.println("Enter at least one contributor.");
         }
       }
+
     }
     listExpenses.add(expense);
-  }
-
-  /**
-   * This method will safely read a double amount of money.
-   * In case something different from a double is introduced, ask again for a double.
-   *
-   * @return A Double representing an amount of money
-   */
-  private static Double readDoubleAmount() {
-    System.out.print("How much: ");
-    while (!scanner.hasNextDouble()) {
-      System.out.println("Please insert only digits");
-      System.out.print("How much: ");
-      scanner.next();
-    }
-    return scanner.nextDouble();
-  }
-
-  /**
-   * Print the results for every user in {@link SplitUP#listUsers}.
-   * The value in euro is rounded to two decimals.
-   */
-  private static void printResults() {
-    DecimalFormat f = new DecimalFormat("##.00");
-    for (User u : listUsers) {
-      System.out.println(u.toString() + " : " + f.format(u.getResult()));
-    }
   }
 
   /**
@@ -183,7 +77,7 @@ public class SplitUP {
    * The result is the difference between {@link User#toPay} and {@link User#payed}.
    */
   private static void calculateTotal() {
-    for (User u : listUsers) {
+    for (User u : UserManager.getListUsers()) {
       u.computeResult();
     }
   }
@@ -208,14 +102,14 @@ public class SplitUP {
     updateToPayForEveryUser();
     calculateTotal();
     System.out.println("-- Total --");
-    printResults();
+    IOManager.printResults();
   }
 
   /**
    * Initializes the {@link User#toPay} field for every user to 0.
    */
   private static void resetToPayForEveryUser() {
-    for (User u : listUsers) {
+    for (User u : UserManager.getListUsers()) {
       u.setToPay(0.0);
     }
   }
@@ -225,15 +119,12 @@ public class SplitUP {
    * Adds a debit from a debtor towards a creditor.
    * Debits will simply be added to the amount a user needs to pay when calculating results.
    */
-  private static void addDebit() throws UsernameNotAllowedException {
+  private static void addDebit() throws UsernameNotValidException {
     User debtor, creditor;
     Double amount;
 
     System.out.print("Who is the debtor: ");
-    debtor = retrieveUserOrCreateNew();
-    if (debtor == null) {
-      throw new UsernameNotAllowedException();
-    }
+    debtor = UserManager.obtainUser();
 
     // While introducing creditor, check it is different than debtor
     int i = 0;
@@ -243,13 +134,10 @@ public class SplitUP {
         System.out.println("Not possible to have same user as debtor and creditor");
       }
       System.out.print("Who is the creditor: ");
-      creditor = retrieveUserOrCreateNew();
-      if (creditor == null) {
-        throw new UsernameNotAllowedException();
-      }
+      creditor = UserManager.obtainUser();
     }
 
-    amount = readDoubleAmount();
+    amount = IOManager.readDoubleAmount();
 
     Debit debit = new Debit(debtor, creditor, amount);
     debtor.addDebit(debit);
@@ -259,50 +147,50 @@ public class SplitUP {
   }
 
   public static void main(String[] args) {
-    String choice;
+    Menu choice;
     Boolean finished = false;
 
-    Menu.printMenu();
+    IOManager.printMenu();
     while (!finished) {
-      Menu.displayChoiceMessage();
-      choice = scanner.next();
+
+      choice = IOManager.getChoice();
 
       switch (choice) {
-        case "a":
+        case A:
           try {
             addExpense();
-          } catch (UsernameNotAllowedException e) {
-            System.out.println("A user cannot be named " + END_STRING + " or containing only digits");
+          } catch (UsernameNotValidException e) {
+            UserManager.usernameNotAllowedErrorMessage();
             System.out.println("-- Expense creation interrupted --");
           }
           break;
 
-        case "r":
+        case R:
           System.out.println("Remove a shared expense");
           break;
 
-        case "m":
+        case M:
           System.out.println("Modify a shared expense");
           break;
 
-        case "d":
+        case D:
           try {
             addDebit();
-          } catch (UsernameNotAllowedException e) {
-            System.out.println("A user cannot be named " + END_STRING + " or containing only digits");
+          } catch (UsernameNotValidException e) {
+            UserManager.usernameNotAllowedErrorMessage();
             System.out.println("-- Debit creation interrupted --");
           }
           break;
 
-        case "b":
+        case B:
           System.out.println("Remove a debit");
           break;
 
-        case "c":
+        case C:
           calculateAndShowResults();
           break;
 
-        case "e":
+        case E:
           System.out.println("-- Bye bye --");
           finished = true;
           break;

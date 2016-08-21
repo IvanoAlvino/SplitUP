@@ -6,7 +6,7 @@ public enum Menu {
     M("Modify shared expense"),
     D("Add a debit"),
     B("Remove a debit"),
-    C("Caluclate total"),
+    C("Calculate total"),
     E("Exit from SplitUp");
 
     private final String text;
