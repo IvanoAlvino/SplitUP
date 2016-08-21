@@ -10,8 +10,6 @@ class Expense extends Transaction {
    * If empty, the expense will be only payed by his {@link Expense#payer}.
    */
   private ArrayList<User> contributors;
-//TODO: remove this int and use contributors.size()
-  private int contributorsNumber;
 
   /**
    * The person who payed for this expense.
@@ -22,7 +20,6 @@ class Expense extends Transaction {
     this.payer = payer;
     this.contributors = new ArrayList<>();
     this.amount = amount;
-    this.contributorsNumber = 0;
   }
 
   /**
@@ -31,7 +28,6 @@ class Expense extends Transaction {
    */
   void addContributor(User contributor) {
     this.contributors.add(contributor);
-    this.contributorsNumber++;
   }
 
   ArrayList<User> getContributors() {
@@ -46,6 +42,6 @@ class Expense extends Transaction {
    * Returns the share for every contributor.
    */
   Double getShare() {
-    return this.amount / this.contributorsNumber;
+    return this.amount / this.contributors.size();
   }
 }
