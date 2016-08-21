@@ -7,16 +7,27 @@ class IOManager {
 
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Read a string from stdin
+     * @return The read string
+     */
     static String readString() {
         return scanner.next();
     }
 
+    /**
+     * Read a choice from the user and return the corresponding Menu enum constant.
+     * @return The enum constant choice
+     */
     static Menu getChoice() {
         Menu.displayChoiceMessage();
         String choice = scanner.next();
         return Menu.valueOf(choice.toUpperCase());
     }
 
+    /**
+     * Print the initial menu.
+     */
     static void printMenu() {
         Menu.printMenu();
     }
@@ -41,10 +52,21 @@ class IOManager {
      * Print the results for every user in {@link UserManager#listUsers}.
      * The value in euro is rounded to two decimals.
      */
-    public static void printResults() {
+    static void printResults() {
         DecimalFormat f = new DecimalFormat("##.00");
         for (User u : UserManager.getListUsers()) {
             System.out.println(u.toString() + " : " + f.format(u.getResult()));
         }
     }
+
+    /**
+     * Print a provided message in a formatted way.
+     * @param message The mesage to print
+     */
+    static void printStatusMessage(String message) {
+        System.out.print("-- ");
+        System.out.print(message);
+        System.out.println(" --");
+    }
+
 }

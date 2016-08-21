@@ -21,7 +21,7 @@ public enum Menu {
      * Print a menu with possible operations.
      */
     public static void printMenu() {
-        System.out.println("ivoMenu\n----\n");
+        IOManager.printStatusMessage("Menu");
         for (Menu m : Menu.values()) {
             System.out.println(m + separator + m.text);
         }

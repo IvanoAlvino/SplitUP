@@ -12,25 +12,28 @@ public class UserManager {
     private static ArrayList<User> listUsers = new ArrayList<>();
 
     /**
-     * Enter the name of a user.
+     * Retrieve a User.
      * If the user is already existing in {@link UserManager#listUsers}, the user is returned.
      * If the user is not in the list, create a new one.
-     * If the string {@link UserManager#END_STRING} is entered, null is returned.
+     * A user cannot be called {@link UserManager#END_STRING}.
      *
-     * A user cannot be called {@link UserManager#END_STRING} and this is guaranteed at user creation time.
-     *
-     * @return A User, either new or selected from existing one
-     *         Null if the string {@link UserManager#END_STRING} is entered
+     * @param userName The user to retrive or create
+     * @return The User, either found in the list or newly created
+     * @throws UsernameNotValidException
      */
-    static User retrieveUserOrCreateNew(String userName) {
-        User user;
-        if ( ( user = retrieveUser(userName)) != null ) {
-            // user found
-            return user;
+    static User retrieveUserOrCreateNew(String userName) throws UsernameNotValidException {
+        if (UserManager.isValid(userName)) {
+            User user;
+            if ((user = retrieveUser(userName)) != null) {
+                // user found
+                return user;
+            } else {
+                // user not found
+                return createNewUser(userName);
+            }
         }
         else {
-            // user not found
-            return createNewUser(userName);
+            throw new UsernameNotValidException();
         }
     }
 
@@ -74,14 +77,28 @@ public class UserManager {
         return listUsers;
     }
 
+    /**
+     * Print an error message for username not valid.
+     */
     static void usernameNotAllowedErrorMessage() {
-        System.out.println("A user cannot be named " + END_STRING + " or containing only digits");
+        System.out.println("!! A user cannot be named " + END_STRING + " or containing only digits !!");
     }
 
+    /**
+     * Checks username validity.
+     * In case it is equal to {@link UserManager#END_STRING} or composed only by digits, it is not valid.
+     * @param userName The username to check
+     * @return The validity of the username
+     */
     static boolean isValid(String userName) {
         return !(userName.equalsIgnoreCase(END_STRING) || userName.matches("[0-9]+"));
     }
 
+    /**
+     * Will read a username from stdin, check its validity and if valid return a User.
+     * @return A user, either created or returned from the {@link UserManager#listUsers}.
+     * @throws UsernameNotValidException
+     */
     static User obtainUser() throws UsernameNotValidException {
         String userName = IOManager.readString();
         if (!UserManager.isValid(userName)) {

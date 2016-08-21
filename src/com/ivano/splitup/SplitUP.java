@@ -15,23 +15,17 @@ public class SplitUP {
    * <b>Contributors</b> that will share the expense.<br>
    */
   private static void addExpense() throws UsernameNotValidException {
-    User payer;
-    Double amount;
-    Expense expense;
-
-    // Get payer User
     System.out.print("Who is paying: ");
-    payer = UserManager.obtainUser();
+    User payer = UserManager.obtainUser();
 
-    amount = IOManager.readDoubleAmount();
+    Double amount = IOManager.readDoubleAmount();
     payer.updatePayedAmount(amount);
 
-    expense = new Expense(payer, amount);
-
+    Expense expense = new Expense(payer, amount);
     expense.addContributor(payer);        // The payer is always added as contributor
     addContributorsToExpense(expense);    // Add other contributors
 
-    System.out.println("-- Expense created --");
+    IOManager.printStatusMessage("Expense created");
   }
 
   /**
@@ -39,23 +33,23 @@ public class SplitUP {
    * It is not possible to insert an expense with no contributors beside the original payer.
    *
    * @param expense The expense to which contributors will be added
+   * @throws UsernameNotValidException
    */
-  private static void addContributorsToExpense(Expense expense) {
-    User contributor;
-    Boolean finished = false;
+  private static void addContributorsToExpense(Expense expense) throws UsernameNotValidException {
+    IOManager.printStatusMessage("Add contributors");
 
-    System.out.println("** Add contributors");
+    Boolean finished = false;
     while (!finished) {
       String username = IOManager.readString();
 
       if (UserManager.isValid(username)) {
-        contributor = UserManager.retrieveUserOrCreateNew(username);
+        User contributor = UserManager.retrieveUserOrCreateNew(username);
 
         if ( !contributor.toString().equals(expense.getPayerName()) ) {
           expense.addContributor(contributor);
         }
         else {
-          System.out.println("It is not possible to add the payer as contributor.");
+          IOManager.printStatusMessage("It is not possible to add the payer as contributor.");
         }
       }
       else {
@@ -64,7 +58,7 @@ public class SplitUP {
           finished = true;
         }
         else {
-          System.out.println("Enter at least one contributor.");
+          IOManager.printStatusMessage("Enter at least one contributor.");
         }
       }
 
@@ -101,7 +95,7 @@ public class SplitUP {
     resetToPayForEveryUser();
     updateToPayForEveryUser();
     calculateTotal();
-    System.out.println("-- Total --");
+    IOManager.printStatusMessage("Total");
     IOManager.printResults();
   }
 
@@ -120,84 +114,85 @@ public class SplitUP {
    * Debits will simply be added to the amount a user needs to pay when calculating results.
    */
   private static void addDebit() throws UsernameNotValidException {
-    User debtor, creditor;
-    Double amount;
-
     System.out.print("Who is the debtor: ");
-    debtor = UserManager.obtainUser();
+    User debtor = UserManager.obtainUser();
 
     // While introducing creditor, check it is different than debtor
     int i = 0;
-    creditor = debtor;
+    User creditor = debtor;
     while (creditor.toString().equalsIgnoreCase(debtor.toString())) {
       if (i++ > 0) {
-        System.out.println("Not possible to have same user as debtor and creditor");
+        IOManager.printStatusMessage("Not possible to have same user as debtor and creditor");
       }
       System.out.print("Who is the creditor: ");
       creditor = UserManager.obtainUser();
     }
 
-    amount = IOManager.readDoubleAmount();
+    Double amount = IOManager.readDoubleAmount();
 
     Debit debit = new Debit(debtor, creditor, amount);
     debtor.addDebit(debit);
     creditor.addCredit(debit);
 
-    System.out.println("-- Debit created --");
+    IOManager.printStatusMessage("Debit created");
   }
 
   public static void main(String[] args) {
-    Menu choice;
-    Boolean finished = false;
-
     IOManager.printMenu();
+
+    Boolean finished = false;
     while (!finished) {
 
-      choice = IOManager.getChoice();
+      try {
+        Menu choice = IOManager.getChoice();
+        switch (choice) {
+          case A:
+            try {
+              addExpense();
+            } catch (UsernameNotValidException e) {
+              UserManager.usernameNotAllowedErrorMessage();
+              IOManager.printStatusMessage("Expense creation interrupted");
+            }
+            break;
 
-      switch (choice) {
-        case A:
-          try {
-            addExpense();
-          } catch (UsernameNotValidException e) {
-            UserManager.usernameNotAllowedErrorMessage();
-            System.out.println("-- Expense creation interrupted --");
-          }
-          break;
+          case R:
+            System.out.println("Remove a shared expense");
+            break;
 
-        case R:
-          System.out.println("Remove a shared expense");
-          break;
+          case M:
+            System.out.println("Modify a shared expense");
+            break;
 
-        case M:
-          System.out.println("Modify a shared expense");
-          break;
+          case D:
+            try {
+              addDebit();
+            } catch (UsernameNotValidException e) {
+              UserManager.usernameNotAllowedErrorMessage();
+              IOManager.printStatusMessage("Debit creation interrupted");
+            }
+            break;
 
-        case D:
-          try {
-            addDebit();
-          } catch (UsernameNotValidException e) {
-            UserManager.usernameNotAllowedErrorMessage();
-            System.out.println("-- Debit creation interrupted --");
-          }
-          break;
+          case B:
+            System.out.println("Remove a debit");
+            break;
 
-        case B:
-          System.out.println("Remove a debit");
-          break;
+          case C:
+            calculateAndShowResults();
+            break;
 
-        case C:
-          calculateAndShowResults();
-          break;
+          case E:
+            IOManager.printStatusMessage("Bye Bye");
+            finished = true;
+            break;
 
-        case E:
-          System.out.println("-- Bye bye --");
-          finished = true;
-          break;
-
-        default:
-          break;
+          default:
+            break;
+        }
       }
+      catch (IllegalArgumentException e) {
+        IOManager.printStatusMessage("Retry");
+      }
+
     }
   }
 
