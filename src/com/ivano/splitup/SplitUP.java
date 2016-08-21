@@ -105,9 +105,6 @@ public class SplitUP {
     System.out.println("r - Remove shared expense");
     System.out.println("m - Modify shared expense");
     System.out.println();
-    System.out.println("u - Add a user");
-    System.out.println("x - Remove a user");
-    System.out.println();
     System.out.println("d - Add a debit");
     System.out.println("b - Remove a debit");
     System.out.println();
@@ -237,6 +234,7 @@ public class SplitUP {
     resetToPayForEveryUser();
     updateToPayForEveryUser();
     calculateTotal();
+    System.out.println("-- Total --");
     printResults();
   }
 
@@ -315,14 +313,6 @@ public class SplitUP {
           System.out.println("Modify a shared expense");
           break;
 
-        case "u":
-          System.out.println("Add a user");
-          break;
-
-        case "x":
-          System.out.println("Remove a user");
-          break;
-
         case "d":
           try {
             addDebit();
@@ -337,12 +327,11 @@ public class SplitUP {
           break;
 
         case "c":
-          System.out.println("Calculate total");
           calculateAndShowResults();
           break;
 
         case "e":
-          System.out.println("Exit from SplitUP");
+          System.out.println("-- Bye bye --");
           finished = true;
           break;
 
@@ -350,7 +339,6 @@ public class SplitUP {
           break;
       }
     }
-    System.out.println("-- Bye bye --");
   }
 
 }
