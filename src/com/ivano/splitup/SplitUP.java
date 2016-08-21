@@ -88,33 +88,6 @@ public class SplitUP {
   }
 
   /**
-   * Display a simple message.
-   * Used every iteration of the main loop in main method.
-   */
-  private static void displayChoiceMessage() {
-    System.out.println();
-    System.out.print("Enter choice: ");
-  }
-
-  /**
-   * Print a menu with possible operations.
-   */
-  private static void printMenu() {
-    System.out.println("Menu\n----\n");
-    System.out.println("a - Add shared expense");
-    System.out.println("r - Remove shared expense");
-    System.out.println("m - Modify shared expense");
-    System.out.println();
-    System.out.println("d - Add a debit");
-    System.out.println("b - Remove a debit");
-    System.out.println();
-    System.out.println("c - Calculate total");
-    System.out.println();
-    System.out.println("e - Exit from SplitUP");
-    System.out.println();
-  }
-
-  /**
    * This method will create and add a new expense to {@link SplitUP#listExpenses}.<br>
    * It asks to specify the paying <b>User</b>, the <b>Amount</b> that is being payed and the
    * <b>Contributors</b> that will share the expense.<br>
@@ -289,9 +262,9 @@ public class SplitUP {
     String choice;
     Boolean finished = false;
 
-    printMenu();
+    Menu.printMenu();
     while (!finished) {
-      displayChoiceMessage();
+      Menu.displayChoiceMessage();
       choice = scanner.next();
 
       switch (choice) {
