@@ -55,7 +55,14 @@ class IOManager {
     static void printResults() {
         DecimalFormat f = new DecimalFormat("##.00");
         for (User u : UserManager.getListUsers()) {
-            System.out.println(u.toString() + " : " + f.format(u.getResult()));
+            System.out.print(u.toString());
+            if (u.getResult() >= 0) {
+                System.out.print(" owes ");
+            }
+            else {
+                System.out.print(" collects ");
+            }
+            System.out.println(f.format(Math.abs(u.getResult())));
         }
     }
 
