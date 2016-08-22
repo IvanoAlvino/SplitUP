@@ -34,8 +34,8 @@ class Expense extends Transaction {
     return this.contributors;
   }
 
-  String getPayerName() {
-    return this.payer.toString();
+  User getPayer() {
+    return this.payer;
   }
 
   /**
@@ -43,5 +43,14 @@ class Expense extends Transaction {
    */
   Double getShare() {
     return this.amount / this.contributors.size();
+  }
+
+  /**
+   * Check if the {@link Expense#contributors} list already contains the given contributor.
+   * @param contributor The contributor to look up for in the list
+   * @return A boolean value saying if the contributor is already in the list
+   */
+  boolean containsContributor(User contributor) {
+    return contributors.contains(contributor);
   }
 }

@@ -106,4 +106,46 @@ public class UserManager {
         }
         return UserManager.retrieveUserOrCreateNew(userName);
     }
+
+    /**
+     * Calculate and update the {@link User#result} for every user.<br>
+     * The result is the difference between {@link User#toPay} and {@link User#payed}.
+     */
+    private static void calculateTotal() {
+        for (User u : UserManager.getListUsers()) {
+            u.computeResult();
+        }
+    }
+
+    /**
+     * Loop through {@link SplitUP#listExpenses}, calculate the share and update field
+     * {@link User#toPay} for every contributor.
+     */
+    private static void updateToPayForEveryUser() {
+        for (Expense e : ExpenseManager.getListExpenses()) {
+            for (User u : e.getContributors()) {
+                u.updateToPay(e.getShare());
+            }
+        }
+    }
+
+    /**
+     * Calculate and print the {@link User#result} for every user.
+     */
+    static void calculateAndShowResults() {
+        resetToPayForEveryUser();
+        updateToPayForEveryUser();
+        calculateTotal();
+        IOManager.printStatusMessage("Total");
+        IOManager.printResults();
+    }
+
+    /**
+     * Initializes the {@link User#toPay} field for every user to 0.
+     */
+    private static void resetToPayForEveryUser() {
+        for (User u : UserManager.getListUsers()) {
+            u.setToPay(0.0);
+        }
+    }
 }

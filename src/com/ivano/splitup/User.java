@@ -50,6 +50,12 @@ class User {
     return this.name;
   }
 
+  @Override
+  public boolean equals(Object u) {
+    final User user = (User)u;
+    return user != null && this.name.equalsIgnoreCase(user.toString());
+  }
+
   void updatePayedAmount(double amount) {
     this.payed += amount;
   }
