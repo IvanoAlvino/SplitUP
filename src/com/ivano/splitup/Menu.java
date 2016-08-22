@@ -9,12 +9,12 @@ public enum Menu {
     C("Calculate total"),
     E("Exit from SplitUp");
 
-    private final String text;
+    private final String description;
 
-    private static final String separator = " - ";
+    private static final String SEPARATOR = " - ";
 
     Menu(String s) {
-        this.text = s;
+        this.description = s;
     }
 
     /**
@@ -23,7 +23,7 @@ public enum Menu {
     public static void printMenu() {
         IOManager.printStatusMessage("Menu");
         for (Menu m : Menu.values()) {
-            System.out.println(m + separator + m.text);
+            System.out.println(m + SEPARATOR + m.description);
         }
     }
 
