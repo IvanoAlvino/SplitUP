@@ -2,7 +2,7 @@ package com.ivano.splitup;
 
 import java.util.ArrayList;
 
-public class UserManager {
+class UserManager {
 
     private static final String END_STRING = "end";
 
@@ -19,7 +19,8 @@ public class UserManager {
      *
      * @param userName The user to retrive or create
      * @return The User, either found in the list or newly created
-     * @throws UsernameNotValidException
+     * @throws UsernameNotValidException Throws an exception if Username is equal to {@link UserManager#END_STRING} or
+     * its name is composed only by digits.
      */
     static User retrieveUserOrCreateNew(String userName) throws UsernameNotValidException {
         if (UserManager.isValid(userName)) {
@@ -97,7 +98,8 @@ public class UserManager {
     /**
      * Will read a username from stdin, check its validity and if valid return a User.
      * @return A user, either created or returned from the {@link UserManager#listUsers}.
-     * @throws UsernameNotValidException
+     * @throws UsernameNotValidException Throws an exception if Username is equal to {@link UserManager#END_STRING} or
+     * its name is composed only by digits.
      */
     static User obtainUser() throws UsernameNotValidException {
         String userName = IOManager.readString();
@@ -118,7 +120,7 @@ public class UserManager {
     }
 
     /**
-     * Loop through {@link SplitUP#listExpenses}, calculate the share and update field
+     * Loop through {@link ExpenseManager#listExpenses}, calculate the share and update field
      * {@link User#toPay} for every contributor.
      */
     private static void updateToPayForEveryUser() {
