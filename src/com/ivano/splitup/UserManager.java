@@ -82,7 +82,7 @@ class UserManager {
      * Print an error message for username not valid.
      */
     static void usernameNotAllowedErrorMessage() {
-        System.out.println("!! A user cannot be named " + END_STRING + " or containing only digits !!");
+        IOManager.printStatusMessage("A user cannot be named " + END_STRING + " or containing only digits");
     }
 
     /**
