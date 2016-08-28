@@ -10,6 +10,10 @@ class User {
   private String name;
 
   /**
+   * The list of all {@link Expense} payed by this user;
+   */
+  private ArrayList<Expense> expenses;
+  /**
    * The list of debits this user have.
    */
   private ArrayList<Debit> debits;
@@ -39,6 +43,7 @@ class User {
 
   public User(String name) {
     this.name = name;
+    this.expenses = new ArrayList<>();
     this.debits = new ArrayList<>();
     this.credits = new ArrayList<>();
     this.toPay = 0.0;
@@ -101,5 +106,14 @@ class User {
 
   void addCredit(Debit credit) {
     this.credits.add(credit);
+  }
+
+  void addExpense(Expense expense) {
+    this.expenses.add(expense);
+    updatePayedAmount(expense.amount);
+  }
+
+  ArrayList<Expense> getListExpenses() {
+    return this.expenses;
   }
 }

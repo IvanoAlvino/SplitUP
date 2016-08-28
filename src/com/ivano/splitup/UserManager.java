@@ -138,7 +138,7 @@ class UserManager {
         resetToPayForEveryUser();
         updateToPayForEveryUser();
         calculateTotal();
-        IOManager.printStatusMessage("Total");
+        IOManager.printOperationMessage("Total");
         IOManager.printResults();
     }
 

@@ -39,10 +39,10 @@ class IOManager {
      * @return A Double representing an amount of money
      */
     static Double readDoubleAmount() {
-        System.out.print("How much: ");
+        IOManager.printInputRequestMessage("How much");
         while (!scanner.hasNextDouble()) {
-            System.out.println("Please insert only digits");
-            System.out.print("How much: ");
+            IOManager.printStatusMessage("Please insert only digits");
+            IOManager.printInputRequestMessage("How much");
             scanner.next();
         }
         return scanner.nextDouble();
@@ -64,6 +64,46 @@ class IOManager {
             }
             System.out.println(f.format(Math.abs(u.getResult())));
         }
+    }
+
+    static void printSharedExpenses() {
+        printOperationMessage("List of expenses");
+        for (User u : UserManager.getListUsers()) {
+            System.out.println(u.toString());
+            for (Expense e : u.getListExpenses()) {
+                System.out.print("\t" + e.amount);
+                System.out.print(" (");
+                int i = 0;
+                for (User contributor : e.getContributors()) {
+                    if (i++ > 0) {
+                        System.out.print(", ");
+                    }
+                    System.out.print(contributor);
+                }
+                System.out.println(")");
+            }
+        }
+    }
+
+    /**
+     * Print a provided input request message in a formatted way.
+     * Used to request input from user.
+     * @param message The message to print
+     */
+    static void printInputRequestMessage(String message) {
+        System.out.print(">> ");
+        System.out.print(message + " : ");
+    }
+
+    /**
+     * Print a provided operation message in a formatted way.
+     * Used to print operations titles.
+     * @param message The message to print
+     */
+    static void printOperationMessage(String message) {
+        System.out.print("** ");
+        System.out.print(message);
+        System.out.println(" **");
     }
 
     /**

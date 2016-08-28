@@ -20,13 +20,12 @@ class ExpenseManager {
    * <b>Contributors</b> that will share the expense.<br>
    */
   static void addExpense() throws UsernameNotValidException {
-    System.out.print("Who is paying: ");
+    IOManager.printInputRequestMessage("Who is paying");
     User payer = UserManager.obtainUser();
-
     Double amount = IOManager.readDoubleAmount();
-    payer.updatePayedAmount(amount);
-
     Expense expense = new Expense(payer, amount);
+
+    payer.addExpense(expense);
     expense.addContributor(payer);        // The payer is always added as contributor
     addContributorsToExpense(expense);    // Add other contributors
 
@@ -42,7 +41,7 @@ class ExpenseManager {
    * its name is composed only by digits.
    */
   private static void addContributorsToExpense(Expense expense) throws UsernameNotValidException {
-    IOManager.printStatusMessage("Add contributors");
+    IOManager.printOperationMessage("Add contributors");
 
     Boolean finished = false;
     while (!finished) {
@@ -95,7 +94,7 @@ class ExpenseManager {
    * Debits will simply be added to the amount a user needs to pay when calculating results.
    */
   static void addDebit() throws UsernameNotValidException {
-    System.out.print("Who is the debtor: ");
+    IOManager.printInputRequestMessage("Who is the debtor");
     User debtor = UserManager.obtainUser();
 
     // While introducing creditor, check it is different than debtor
@@ -106,7 +105,7 @@ class ExpenseManager {
       if (i++ > 0) {
         IOManager.printStatusMessage("Not possible to have same user as debtor and creditor");
       }
-      System.out.print("Who is the creditor: ");
+      IOManager.printInputRequestMessage("Who is the creditor");
       creditor = UserManager.obtainUser();
     }
 

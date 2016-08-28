@@ -6,6 +6,7 @@ enum Menu {
   M("Modify shared expense"),
   D("Add a debit"),
   B("Remove a debit"),
+  P("Print all shared expenses"),
   C("Calculate total"),
   E("Exit from SplitUp");
 
@@ -21,7 +22,7 @@ enum Menu {
    * Print a menu with possible operations.
    */
   public static void printMenu() {
-    IOManager.printStatusMessage("Menu");
+    IOManager.printOperationMessage("Menu");
     for (Menu m : Menu.values()) {
       System.out.println(m + SEPARATOR + m.description);
     }
@@ -33,7 +34,7 @@ enum Menu {
    */
   public static void displayChoiceMessage() {
     System.out.println();
-    System.out.print("Enter choice: ");
+    IOManager.printInputRequestMessage("Enter choice");
   }
 
   /**
@@ -78,6 +79,10 @@ enum Menu {
 
     case B:
       System.out.println("Remove a debit");
+      break;
+
+    case P:
+      IOManager.printSharedExpenses();
       break;
 
     case C:
